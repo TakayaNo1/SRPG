@@ -23,13 +23,13 @@ public abstract class IStoryState : IPlayerState
             this.UIController.HideAllButton();
             this.StoryUIController = this.UIController.GetStoryUIController();
 
-            NextStory(Controller);
+            StateStory();
         }
 
         if (Player.GetButtonDown(Player.GamePadBoolKey.A))
         {
             this.CurrentState = this.CurrentState.Next(Controller);
-            NextStory(Controller);
+            StateStory();
         }
 
         if (!(CurrentState is IStoryState) && !(CurrentState is SomeTextState))
@@ -41,5 +41,7 @@ public abstract class IStoryState : IPlayerState
         return this;
     }
 
-    public abstract IPlayerState NextStory(GameController Controller);
+    protected abstract void StateStory();
+    public abstract bool IsStatableNextStory();
+    public abstract IStoryState GetNextStory();
 }

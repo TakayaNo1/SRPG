@@ -43,7 +43,7 @@ public class BattleUIController
         int i=0;
         for(; i < Enemies.Count; i++)
         {
-            Debug.Log(Enemies[i].GetType().Name);
+            //Debug.Log(Enemies[i].GetType().Name);
             EnemyImage[i].sprite = Resources.Load<Sprite>("Texture/"+Enemies[i].Name);
             EnemyImage[i].color = showColor;
         }

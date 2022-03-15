@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class BattleFinState : IPlayerState{
+class EndState : IPlayerState{
     public IPlayerState Next(GameController Controller)
     {
-        Controller.GetUIController().SetBattlePanelVisible(false);
-        return new EndState();
+        return new StartState();
     }
 }

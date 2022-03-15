@@ -31,7 +31,7 @@ class BattleDamageState : IPlayerState
                 this.ToEntity = this.PlayerStatus;
                 this.FromEntity = this.PlayerStatus.Enemys[this.SelectedEnemyIndex];
                 this.IsFirst = false;
-                this.StateType = DamageStateType.AfterDamage;
+                this.StateType = DamageStateType.EntityDamaged;
                 this.EnemyDiceCount = Random.Range(1, 7);
                 return new SomeTextState(new string[] { this.PlayerStatus.Enemys[this.SelectedEnemyIndex].Name + "は" + this.EnemyDiceCount + "が出た！" }, this);
             }

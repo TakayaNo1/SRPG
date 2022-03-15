@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
 {
     public GameController GameController;
 
-    public bool Order = false;
-
     public Square CurrentSqare;
 
     private Transform PlayerTrans;
@@ -16,15 +14,14 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //this.CurrentSqare = this.StartSquare.GetComponent<Square>();
         this.CurrentSqare = MapGenerator.GetStartSquare();
         this.PlayerTrans = GetComponent<Transform>();
         this.Status = new PlayerStatus();
         this.Status.Name = "Player";
         this.Status.Skills.Add(new DiceSkill(GameController, new Dice(2), "さいころ×２"));
 
-        //if (this.Order) this.Status.State = new ButtonChooseState();
-        if (this.Order) this.Status.State = new StoryState1();
+        //this.Status.State = new ButtonChooseState();
+        this.Status.State = new StartState();
     }
 
     void Update()
