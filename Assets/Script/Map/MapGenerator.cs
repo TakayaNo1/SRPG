@@ -49,6 +49,75 @@ public class MapGenerator : MonoBehaviour
 
         return squares[10][10];
     }
+    /**
+     * Map A
+     */
+    public static Square GenerateMapA(Transform Trans)
+    {
+        int N = 30;
+        Square[][] squares = new Square[N][];
+        Array types = Enum.GetValues(typeof(SquareType));
+        int x = 10, y = 10, dirX = 1, dirY = 0;
+
+        for (int i = 0; i < N; i++)
+        {
+            squares[i] = new Square[N];
+        }
+        for (int i = 1; i < N-1; i++)
+        { 
+            squares[0][i] = GenerateSquare(-10, i-10).GetComponent<Square>();
+            squares[0][i].Type = (SquareType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+            squares[0][i].transform.parent = Trans;
+
+            squares[N-1][i] = GenerateSquare(N-11, i - 10).GetComponent<Square>();
+            squares[N-1][i].Type = (SquareType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+            squares[N-1][i].transform.parent = Trans;
+
+            squares[i][0] = GenerateSquare(i-10, -10).GetComponent<Square>();
+            squares[i][0].Type = (SquareType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+            squares[i][0].transform.parent = Trans;
+
+            squares[i][N-1] = GenerateSquare(i - 10, N-11).GetComponent<Square>();
+            squares[i][N-1].Type = (SquareType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+            squares[i][N-1].transform.parent = Trans;
+        }
+
+        
+        for (int i = 0; i < 400; i++)
+        {
+            if (squares[x][y] == null)
+            {
+                squares[x][y] = GenerateSquare(x - 10, y - 10).GetComponent<Square>();
+                squares[x][y].Type = (SquareType)types.GetValue(UnityEngine.Random.Range(0, types.Length));
+                squares[x][y].transform.parent = Trans;
+            }
+            if(x == 0 || x == N - 1 || y == 0 || y == N-1)
+            {
+                x = UnityEngine.Random.Range(0, N);
+                y = UnityEngine.Random.Range(0, N);
+                int dir = UnityEngine.Random.Range(0, 4);
+                if (dir == 0) { dirX = 1; dirY = 0; }
+                if (dir == 1) { dirX = -1; dirY = 0; }
+                if (dir == 2) { dirX = 0; dirY = 1; }
+                if (dir == 3) { dirX = 0; dirY = -1; }
+            }
+            else
+            {
+                x += dirX;
+                y += dirY;
+            }
+        }
+        
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                if(squares[i][j] != null)SetNextSquare(squares, i, j);
+            }
+        }
+
+        return squares[10][10];
+    }
 
     /**
      * (x,z)座標にマスを生成

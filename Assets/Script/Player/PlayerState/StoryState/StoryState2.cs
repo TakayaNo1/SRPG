@@ -1,17 +1,17 @@
 ﻿
 using UnityEngine;
 
-public class StoryState1 : IStoryState
+public class StoryState2 : IStoryState
 {
-    private static string[] Texts1 = new string[] { 
-        "「よく来てくれた勇者よ。", "魔物討伐を依頼したい」",        //state = 0,1
-        SomeTextState.ClearText+"「。。。」",                        //state = 2
-        SomeTextState.ClearText+"「勇者よ頼んだぞ」",                //state = 3
+    private static string[] Texts2 = new string[] { 
+        "「魔物を1匹討伐してくれたようだな", "よくやってくれた！」", //state = 0,1
+        SomeTextState.ClearText+"「はい！」",                        //state = 2
+        SomeTextState.ClearText+"「勇者よ、また頼んだぞ」",          //state = 3
         SomeTextState.ClearText+"「。。。", "わかりました。」" };    //state = 4,5
     
     private int state = 0;
     
-    public StoryState1() : base(new SomeTextState(Texts1, new ButtonChooseState()))
+    public StoryState2() : base(new SomeTextState(Texts2, new ButtonChooseState()))
     {
     }
 
@@ -47,11 +47,10 @@ public class StoryState1 : IStoryState
 
     public override bool IsStatableNextStory()
     {
-        return BattleState.EnemyLevel == 2;
+        return false;
     }
-
     public override IStoryState GetNextStory()
     {
-        return new StoryState2();
+        return null;
     }
 }

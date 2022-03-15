@@ -17,11 +17,11 @@ class SquareEventState : IPlayerState{
         {
             IItem item = new DiceItem(Controller, new Dice(2), "さいころ×２");
             Controller.GetCurrentPlayer().GetPlayerStatus().Items.Add(item);
-            return new SomeTextState(new string[] { "アイテムマスに止まった。", item.GetItemName()+"を手に入れた！" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "アイテムマスに止まった。", item.GetItemName()+"を手に入れた！" }, new EndState());
         }
         else if (squareType == SquareType.MoneySquare)
         {
-            return new SomeTextState(new string[] { "マネーマスに止まった。", "100円を手に入れた！" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "マネーマスに止まった。", "100円を手に入れた！" }, new EndState());
         }
         else if (squareType == SquareType.EnemySquare)
         {
@@ -29,11 +29,11 @@ class SquareEventState : IPlayerState{
         }
         else if (squareType == SquareType.AccidentSquare)
         {
-            return new SomeTextState(new string[] { "アクシデントマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "アクシデントマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new EndState());
         }
         else if (squareType == SquareType.ShopSquare)
         {
-            return new SomeTextState(new string[] { "ショップマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "ショップマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new EndState());
         }
         else if (squareType == SquareType.ExpSquare)
         {
@@ -45,20 +45,20 @@ class SquareEventState : IPlayerState{
             {
                 lines.Add("レベルが" + level + "上がった。");
             }
-            return new SomeTextState(lines, new ButtonChooseState());
+            return new SomeTextState(lines, new EndState());
         }
         else if (squareType == SquareType.TeleportSquare)
         {
-            return new SomeTextState(new string[] { "テレポートマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "テレポートマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new EndState());
         }
         else if (squareType == SquareType.HealSquare)
         {
             int remain = Controller.GetCurrentPlayer().GetParameta(EntityParamsType.HP).AddValue(10);
-            return new SomeTextState(new string[] { "回復マスに止まった。\nHPが10回復した。" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "回復マスに止まった。\nHPが10回復した。" }, new EndState());
         }
         else
         {
-            return new SomeTextState(new string[] { "何も起きなかった。" }, new ButtonChooseState());
+            return new SomeTextState(new string[] { "何も起きなかった。" }, new EndState());
         }
     }
 }
