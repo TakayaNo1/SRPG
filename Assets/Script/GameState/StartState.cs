@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class StartState : IPlayerState{
+class StartState : IGameState{
 
-    private static IStoryState StoryState = new RootStoryState();
+    public static IStoryState StoryState = new RootStoryState();
 
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
         if (StoryState.IsStatableNextStory())
         {
             return StoryState = StoryState.GetNextStory();
         }
+
         return new ButtonChooseState();
     }
 }

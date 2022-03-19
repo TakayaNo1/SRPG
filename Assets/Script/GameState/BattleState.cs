@@ -11,11 +11,21 @@ class BattleState : ButtonChooseState
     public static int EnemyLevel = 1;
 
     private PlayerStatus PlayerStatus;
+    private List<EnemyStatus> Enemys = new List<EnemyStatus>();
     public BattleState() : base()
     {
+        Enemys.Add(new EnemyStatus("Slime", EnemyLevel++));
+    }
+    public BattleState(EnemyStatus Enemy) : base()
+    {
+        this.Enemys.Add(Enemy);
+    }
+    public BattleState(EnemyStatus[] Enemys) : base()
+    {
+        this.Enemys.AddRange(Enemys);
     }
 
-    public override IPlayerState Next(GameController Controller)
+    public override IGameState Next(GameController Controller)
     {
         if (base.UIController == null)
         {
@@ -25,19 +35,14 @@ class BattleState : ButtonChooseState
             this.InitButton(Controller);
             
             this.PlayerStatus = Controller.GetCurrentPlayer().GetPlayerStatus();
-            if (this.PlayerStatus.Enemys.Count == 0)
-            {
-                this.PlayerStatus.Enemys.Add(new EnemyStatus("Slime", EnemyLevel));
-                base.UIController.GetBattleUIController().SetEnemyImage(this.PlayerStatus.Enemys);
-            }
+            base.UIController.GetBattleUIController().SetEnemyImage(this.Enemys);
 
-            string[] texts = new string[this.PlayerStatus.Enemys.Count];
+            string[] texts = new string[this.Enemys.Count];
             for(int i=0;i< texts.Length; i++)
             {
-                texts[i] = this.PlayerStatus.Enemys[i].Name+"(LVL:"+ EnemyLevel + ")が現れた！";
+                texts[i] = this.Enemys[i].Name+"(LVL:"+ (this.Enemys[i].Params[(int)EntityParamsType.LEVEL].Value-1) + ")が現れた！";
             }
 
-            EnemyLevel++;
             return new SomeTextState(texts, this);
         }
 
@@ -62,6 +67,10 @@ class BattleState : ButtonChooseState
         return this;
     }
 
+    public List<EnemyStatus> GetEnemys()
+    {
+        return this.Enemys;
+    }
     protected override void InitButton(GameController Controller)
     {
         base.SetButton(new string[] {"たたかう", "スキル", "アイテム", "逃げる"});
@@ -104,7 +113,7 @@ class BattleState : ButtonChooseState
     {
         int player_lvl = this.PlayerStatus.Params[(int)EntityParamsType.LEVEL].Value;
         int enemy_max_lvl = 0;
-        foreach (EnemyStatus enemy in this.PlayerStatus.Enemys)
+        foreach (EnemyStatus enemy in this.Enemys)
         {
             int lvl = enemy.Params[(int)EntityParamsType.LEVEL].Value;
             if (lvl > enemy_max_lvl) enemy_max_lvl = lvl;

@@ -1,48 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player : PlayableEntity
 {
-    public GameController GameController;
-
-    public Square CurrentSqare;
-
-    private Transform PlayerTrans;
+    public string Name;
     private PlayerStatus Status;
 
     void Start()
     {
-        this.CurrentSqare = MapGenerator.GetStartSquare();
-        this.PlayerTrans = GetComponent<Transform>();
+        base.CurrentSqare = MapGenerator.GetSquare(X, Z);
+        base.Trans = GetComponent<Transform>();
         this.Status = new PlayerStatus();
-        this.Status.Name = "Player";
-        this.Status.Skills.Add(new DiceSkill(GameController, new Dice(2), "さいころ×２"));
+        this.Status.Name = Name;
+        this.Status.Skills.Add(new DiceSkill(base.GameController, new Dice(2), "さいころ×２"));
 
-        //this.Status.State = new ButtonChooseState();
-        this.Status.State = new StartState();
+        MoveTo(this.CurrentSqare);
     }
 
     void Update()
     {
-        if (this.Status.State != null)
-        {
-            this.Status.State = this.Status.State.Next(this.GameController); //state next
-        }
-        else
-        {
-            SceneManager.LoadScene("HomeScene");
-        }
+        
     }
 
     public PlayerStatus GetPlayerStatus()
     {
-        return this.Status;
+        return Status;
     }
-    public Parameta GetParameta(EntityParamsType type)
+    public override EntityStatus GetStatus()
     {
-        return this.Status.Params[(int)type];
+        return this.Status;
     }
 
     /**
@@ -50,37 +37,27 @@ public class Player : MonoBehaviour
      */
     public Square GetNextSquare()
     {
-        if (this.CurrentSqare == null)
+        if (base.CurrentSqare == null)
         {
-            this.CurrentSqare = MapGenerator.GetStartSquare();
+            base.CurrentSqare = MapGenerator.GetStartSquare();
         }
-        if (GetDPADButtonDown(GamePadDPADKey.DPAD_RIGHT) && this.CurrentSqare.EastSquare != null)
+        if (GetDPADButtonDown(GamePadDPADKey.DPAD_RIGHT) && base.CurrentSqare.EastSquare != null)
         {
-            return this.CurrentSqare.EastSquare;
+            return base.CurrentSqare.EastSquare;
         }
-        else if (GetDPADButtonDown(GamePadDPADKey.DPAD_LEFT) && this.CurrentSqare.WestSquare != null)
+        else if (GetDPADButtonDown(GamePadDPADKey.DPAD_LEFT) && base.CurrentSqare.WestSquare != null)
         {
-            return this.CurrentSqare.WestSquare;
+            return base.CurrentSqare.WestSquare;
         }
-        else if (GetDPADButtonDown(GamePadDPADKey.DPAD_UP) && this.CurrentSqare.SouthSquare != null)
+        else if (GetDPADButtonDown(GamePadDPADKey.DPAD_UP) && base.CurrentSqare.SouthSquare != null)
         {
-            return this.CurrentSqare.SouthSquare;
+            return base.CurrentSqare.SouthSquare;
         }
-        else if (GetDPADButtonDown(GamePadDPADKey.DPAD_DOWN) && this.CurrentSqare.NorthSquare != null)
+        else if (GetDPADButtonDown(GamePadDPADKey.DPAD_DOWN) && base.CurrentSqare.NorthSquare != null)
         {
-            return this.CurrentSqare.NorthSquare;
+            return base.CurrentSqare.NorthSquare;
         }
         return null;
-    }
-    public void MoveToNextSquare(Square Next)
-    {
-        Vector3 dir = this.CurrentSqare.GetDirection(Next);
-        Vector3 lookAtPos = this.PlayerTrans.position - new Vector3(dir.x, 0, dir.z);
-
-        this.PlayerTrans.LookAt(lookAtPos);
-        this.PlayerTrans.position += dir;
-
-        this.CurrentSqare = Next;
     }
 
     private static bool DPADIsDown = false;
@@ -165,10 +142,5 @@ public class Player : MonoBehaviour
     public enum GamePadDPADKey
     {
         DPAD_LEFT, DPAD_RIGHT, DPAD_UP, DPAD_DOWN
-    }
-    public enum PlayerState : byte
-    {
-        MOVEMENT_STATE = 1,
-        CUI_STATE = 2
     }
 }

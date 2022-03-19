@@ -33,7 +33,7 @@ class SubItemButtonChooseState : SubButtonChooseState
         return a;
     }
 
-    public override IPlayerState Next(GameController Controller)
+    public override IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {

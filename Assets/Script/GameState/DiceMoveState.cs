@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class DiceMoveState : IPlayerState{
+class DiceMoveState : IGameState
+{
 
     private List<Square> PastSquares;
     private int DiceCount;
@@ -13,10 +14,12 @@ class DiceMoveState : IPlayerState{
         this.DiceCount = diceCount;
     }
     
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
         Player P = Controller.GetCurrentPlayer();
+        Boss Boss = Controller.Boss;
         Square next = P.GetNextSquare();
+
         if (next == null)
         {
             return this;
@@ -30,11 +33,19 @@ class DiceMoveState : IPlayerState{
             }
             else
             {
-                this.PastSquares.Add(P.CurrentSqare);
+                this.PastSquares.Add(P.GetSquare());
                 this.DiceCount--;
             }
             P.MoveToNextSquare(next);
             UIController.Log("あと" + this.DiceCount + "マス進めます。");
+            
+            float distance = (Boss.transform.position - P.transform.position).sqrMagnitude;
+            if (distance < 0.01)
+            {
+                Controller.GetComponent<UIController>().SetDicePanelVisible(false);
+                return new SomeTextState(Boss.GetStatus().Name + "と遭遇した！", new BattleState(Boss.GetEnemyStatus()));
+            }
+
             if (DiceCount == 0)
             {
                 Controller.GetComponent<UIController>().SetDicePanelVisible(false);

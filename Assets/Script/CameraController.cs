@@ -24,4 +24,9 @@ public class CameraController : MonoBehaviour
         Vector3 dv = (target_trans.position + vectorFromPlayer - this.CameraTrans.position) * dt * this.CameraSpeed;
         this.CameraTrans.position += dv;
     }
+
+    public void SetTarget(GameObject Target)
+    {
+        this.Target = Target;
+    }
 }

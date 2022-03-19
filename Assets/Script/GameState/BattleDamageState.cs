@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class BattleDamageState : IPlayerState
+class BattleDamageState : IGameState
 {
     private BattleState NextState;
     private DamageStateType StateType;
@@ -19,7 +19,7 @@ class BattleDamageState : IPlayerState
         this.StateType = DamageStateType.BeforeDamage;
         this.IsFirst = true;
     }
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
         if (this.FromEntity == null)
         {
@@ -29,21 +29,21 @@ class BattleDamageState : IPlayerState
             if (this.PlayerDiceCount == 0)
             {
                 this.ToEntity = this.PlayerStatus;
-                this.FromEntity = this.PlayerStatus.Enemys[this.SelectedEnemyIndex];
+                this.FromEntity = this.NextState.GetEnemys()[this.SelectedEnemyIndex];
                 this.IsFirst = false;
                 this.StateType = DamageStateType.EntityDamaged;
                 this.EnemyDiceCount = Random.Range(1, 7);
-                return new SomeTextState(new string[] { this.PlayerStatus.Enemys[this.SelectedEnemyIndex].Name + "は" + this.EnemyDiceCount + "が出た！" }, this);
+                return new SomeTextState(new string[] { this.NextState.GetEnemys()[this.SelectedEnemyIndex].Name + "は" + this.EnemyDiceCount + "が出た！" }, this);
             }
             else if (IsPlayerOrderFirst())
             {
                 this.FromEntity = this.PlayerStatus;
-                this.ToEntity = this.PlayerStatus.Enemys[this.SelectedEnemyIndex];
+                this.ToEntity = this.NextState.GetEnemys()[this.SelectedEnemyIndex];
             }
             else
             {
                 this.ToEntity = this.PlayerStatus;
-                this.FromEntity = this.PlayerStatus.Enemys[this.SelectedEnemyIndex];
+                this.FromEntity = this.NextState.GetEnemys()[this.SelectedEnemyIndex];
             }
         }
 
@@ -56,7 +56,7 @@ class BattleDamageState : IPlayerState
                 List<string> lines = new List<string>();
                 this.EnemyDiceCount = Random.Range(1, 7);
                 lines.Add(this.PlayerDiceCount + "が出た！");
-                lines.Add(this.PlayerStatus.Enemys[this.SelectedEnemyIndex].Name + "は" + this.EnemyDiceCount + "が出た！");
+                lines.Add(this.NextState.GetEnemys()[this.SelectedEnemyIndex].Name + "は" + this.EnemyDiceCount + "が出た！");
                 return new SomeTextState(lines, this);
             }
 
@@ -108,7 +108,7 @@ class BattleDamageState : IPlayerState
                     return new SomeTextState(lines, new DeathState());
                 }
 
-                this.PlayerStatus.Enemys.Remove((EnemyStatus)this.ToEntity);
+                this.NextState.GetEnemys().Remove((EnemyStatus)this.ToEntity);
                 this.StateType = DamageStateType.Exp;
                 return new SomeTextState(lines, this);
             }
@@ -156,7 +156,7 @@ class BattleDamageState : IPlayerState
     private bool IsPlayerOrderFirst()
     {
         int player_spd = this.PlayerStatus.Params[(int)EntityParamsType.SPD].Value;
-        int enemy_spd = this.PlayerStatus.Enemys[this.SelectedEnemyIndex].Params[(int)EntityParamsType.SPD].Value;
+        int enemy_spd = this.NextState.GetEnemys()[this.SelectedEnemyIndex].Params[(int)EntityParamsType.SPD].Value;
         int gap = player_spd - enemy_spd;
         int value;
 
