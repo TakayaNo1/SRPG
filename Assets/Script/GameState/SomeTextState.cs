@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class SomeTextState : IPlayerState{
+class SomeTextState : IGameState
+{
     public static readonly string ClearText = "<ClearText>";
 
     private List<string> DisplayTexts;
     private List<string> QueueTexts;
-    private IPlayerState NextState;
+    private IGameState NextState;
 
-    public SomeTextState(string text, IPlayerState NextState)
+    public SomeTextState(string text, IGameState NextState)
     {
         this.DisplayTexts = new List<string>();
         this.QueueTexts = new List<string>(new string[]{ text });
@@ -21,7 +22,7 @@ class SomeTextState : IPlayerState{
             this.Display();
         }
     }
-    public SomeTextState(string[] texts, IPlayerState NextState)
+    public SomeTextState(string[] texts, IGameState NextState)
     {
         this.DisplayTexts = new List<string>();
         this.QueueTexts = new List<string>(texts);
@@ -32,7 +33,7 @@ class SomeTextState : IPlayerState{
             this.Display();
         }
     }
-    public SomeTextState(List<string> texts, IPlayerState NextState)
+    public SomeTextState(List<string> texts, IGameState NextState)
     {
         this.DisplayTexts = new List<string>();
         this.QueueTexts = new List<string>(texts);
@@ -44,7 +45,7 @@ class SomeTextState : IPlayerState{
         }
     }
 
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
         if (Player.GetButtonDown(Player.GamePadBoolKey.A))
         {

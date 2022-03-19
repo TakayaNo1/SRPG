@@ -8,17 +8,8 @@ public class PlayerStatus : EntityStatus
 {
     public PlayerStatus(): base()
     {
-        this.Enemys = new List<EnemyStatus>();
         base.SetParams(1);
         this.Params[(int)EntityParamsType.EXP].Value = 0;
-    }
-    public IPlayerState State
-    {
-        get; set;
-    }
-    public List<EnemyStatus> Enemys
-    {
-        get; set;
     }
     private ArmorItem[] Armors = new ArmorItem[4];
     private int[] Bufs = new int[Enum.GetValues(typeof(EntityParamsType)).Length];
@@ -41,7 +32,7 @@ public class PlayerStatus : EntityStatus
     protected override int GetParamsValue(EntityParamsType Type, int Level)
     {
         if (Type == EntityParamsType.LEVEL) return Level;
-        else if (Type == EntityParamsType.EXP) return 70 + (int)(Mathf.Pow(Level, 2.1f) * 10f);         //80 ~ 160000
+        else if (Type == EntityParamsType.EXP) return 20 + (int)(Mathf.Pow(Level, 2.1f) * 10f);         //30 ~ 160000
         else if (Type == EntityParamsType.HP) return 48 + (int)(Mathf.Pow(Level, 1.8f) * 2.6f);         //50 ~ 10000
         else if (Type == EntityParamsType.MP) return 9 + (int)(Mathf.Pow(Level, 1.7f) * 1.0f);          //10 ~ 2500
         else if (Type == EntityParamsType.ATT) return -4 + (int)(Mathf.Pow(Level + 7, 1.9f) * 0.16f);   //4 ~ 30 ~ 1200

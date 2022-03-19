@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class DiceSkill : DiceItem, ISkill
 {
+    protected GameController Controller;
+
     public DiceSkill(GameController Controller, Dice Dice, string name): base(Controller, Dice, name)
     {
-
+        this.Controller = Controller;
     }
 
     public new void Action()
@@ -14,7 +16,7 @@ public class DiceSkill : DiceItem, ISkill
         Player P = this.Controller.GetCurrentPlayer();
         int mp = P.GetParameta(EntityParamsType.MP).Value;
 
-        SubButtonChooseState subChooseState = (SubButtonChooseState)P.GetPlayerStatus().State;
+        SubButtonChooseState subChooseState = (SubButtonChooseState)this.Controller.GetGameState();
         if (mp < Mp())
         {
             SomeTextState textReturnState = new SomeTextState(new string[] { "MPが足りません。" }, subChooseState);

@@ -6,24 +6,30 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     private static GameObject prefab;
+    private static Square[][] Maps;
     private static Square StartSquare;
     void Start()
     {
         prefab = (GameObject)Resources.Load("Prefabs/DefaultSquare");
         
-        StartSquare = GenerateDefaultMap(GetComponent<Transform>());
+        Maps = GenerateDefaultMap(GetComponent<Transform>());
+        StartSquare = Maps[10][10];
     }
 
     public static Square GetStartSquare()
     {
         return StartSquare;
     }
+    public static Square GetSquare(int x,int z)
+    {
+        return Maps[x][z];
+    }
 
 
     /**
      * 30*30のランダムなマップ生成
      */
-    public static Square GenerateDefaultMap(Transform Trans)
+    public static Square[][] GenerateDefaultMap(Transform Trans)
     {
         int N = 30;
         Square[][] squares = new Square[N][];
@@ -47,12 +53,12 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        return squares[10][10];
+        return squares;
     }
     /**
      * Map A
      */
-    public static Square GenerateMapA(Transform Trans)
+    public static Square[][] GenerateMapA(Transform Trans)
     {
         int N = 30;
         Square[][] squares = new Square[N][];
@@ -116,7 +122,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        return squares[10][10];
+        return squares;
     }
 
     /**

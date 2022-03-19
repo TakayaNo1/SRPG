@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class SquareEventState : IPlayerState{
+class SquareEventState : IGameState
+{
     public SquareEventState()
     {
 
     }
 
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
-        SquareType squareType = Controller.GetCurrentPlayer().CurrentSqare.Type;
+        SquareType squareType = Controller.GetCurrentPlayer().GetSquare().Type;
 
         if (squareType == SquareType.ItemSquare)
         {

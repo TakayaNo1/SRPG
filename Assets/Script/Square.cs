@@ -26,6 +26,10 @@ public class Square : MonoBehaviour
     {
         return Square.Trans.position - this.Trans.position;
     }
+    public Square[] NextSquares()
+    {
+        return new Square[] { NorthSquare, EastSquare, WestSquare, SouthSquare };
+    }
 }
 
 public enum SquareType

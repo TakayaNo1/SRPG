@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IStoryState : IPlayerState
+public abstract class IStoryState : IGameState
 {
-    private IPlayerState CurrentState;
+    private IGameState CurrentState;
 
     protected UIController UIController;
     protected StoryUIController StoryUIController;
 
-    public IStoryState(IPlayerState CurrentState)
+    public IStoryState(IGameState CurrentState)
     {
         this.CurrentState = CurrentState;
     }
 
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {

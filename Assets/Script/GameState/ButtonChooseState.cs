@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-class ButtonChooseState : IPlayerState{
+class ButtonChooseState : IGameState{
 
     protected UIController UIController;
-    protected IPlayerState NextState;
+    protected IGameState NextState;
 
     private int ButtonSize;
     private int SelectedItemIndex = 0;
@@ -19,7 +19,7 @@ class ButtonChooseState : IPlayerState{
     {
     }
 
-    public virtual IPlayerState Next(GameController Controller)
+    public virtual IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {
@@ -47,7 +47,7 @@ class ButtonChooseState : IPlayerState{
         }
         return this;
     }
-    public void SetNextState(IPlayerState NextState)
+    public void SetNextState(IGameState NextState)
     {
         this.NextState = NextState;
     }

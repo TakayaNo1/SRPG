@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-class RollingDiceState : IPlayerState{
+class RollingDiceState : IGameState{
 
     private UIController UIController;
-    private IPlayerState PrevState;
+    private IGameState PrevState;
 
     private Sprite[] DiceSprites;
     private Image[] DiceImage;
@@ -15,14 +15,14 @@ class RollingDiceState : IPlayerState{
     private int[] DiceIndexs;
     private int TotalDiceCount;
 
-    public RollingDiceState(IPlayerState PrevState, Dice Dice)
+    public RollingDiceState(IGameState PrevState, Dice Dice)
     {
         this.PrevState = PrevState;
         this.Result = Dice.GenerateRandom();
         this.DiceIndexs = Dice.GetDiceIndex(this.Result.Length);
     }
 
-    public IPlayerState Next(GameController Controller)
+    public IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {

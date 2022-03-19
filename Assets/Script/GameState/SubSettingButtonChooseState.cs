@@ -13,7 +13,7 @@ class SubSettingButtonChooseState : SubButtonChooseState
         SetButtonListener(0, () => SceneManager.LoadScene("HomeScene"));
     }
 
-    public override IPlayerState Next(GameController Controller)
+    public override IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {

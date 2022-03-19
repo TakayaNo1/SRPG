@@ -16,13 +16,11 @@ public class DiceItem : IItem
     }
     public void Action()
     {
-        Player P = this.Controller.GetCurrentPlayer();
-
         UIController uic = this.Controller.GetComponent<UIController>();
         uic.HideAllButton();
 
         //SubButtonState -> SomeTextState -> DiceState
-        SubButtonChooseState subChooseState = (SubButtonChooseState)P.GetPlayerStatus().State;
+        SubButtonChooseState subChooseState = (SubButtonChooseState)this.Controller.GetGameState();
         RollingDiceState diceState = new RollingDiceState(subChooseState, this.Dice);
         SomeTextState textState = new SomeTextState(new string[] { GetItemName() + "を使った！" }, diceState);
         subChooseState.NextState = textState;

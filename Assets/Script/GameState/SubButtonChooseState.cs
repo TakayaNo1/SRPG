@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-abstract class SubButtonChooseState : IPlayerState {
+abstract class SubButtonChooseState : IGameState
+{
 
     public ButtonChooseState PrevState{ get; set;}
-    public IPlayerState NextState { get; set; }
+    public IGameState NextState { get; set; }
 
     protected int ButtonSize;
     protected int ButtonIndex;
@@ -25,7 +26,7 @@ abstract class SubButtonChooseState : IPlayerState {
         this.ButtonIndex = 0;
     }
 
-    public abstract IPlayerState Next(GameController Controller);
+    public abstract IGameState Next(GameController Controller);
     public bool IsButtonChooseState()
     {
         return this.PrevState.GetType() == typeof(ButtonChooseState);
