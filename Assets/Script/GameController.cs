@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("HomeScene");
+            SceneManager.LoadScene("ResultScene");
         }
     }
 
@@ -60,6 +60,14 @@ public class GameController : MonoBehaviour
         CameraController.SetTarget(this.CurrentPlayer.gameObject);
         return this.CurrentPlayer;
     }
+    public PlayableEntity GetCurrentPlayableEntity()
+    {
+        if(PlayerOrderIndex < Player.Length)
+        {
+            return Player[PlayerOrderIndex];
+        }
+        return Boss;
+    }
 
     public IGameState GetGameState()
     {
@@ -80,5 +88,11 @@ public class GameController : MonoBehaviour
     public CameraController GetCameraController()
     {
         return this.CameraController;
+    }
+
+    public void Reset()
+    {
+        StartState.StoryState = new RootStoryState();
+        BattleState.EnemyLevel = 1;
     }
 }

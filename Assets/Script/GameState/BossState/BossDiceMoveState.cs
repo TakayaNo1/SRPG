@@ -53,6 +53,13 @@ class BossDiceMoveState : IGameState
     {
         isMoving = true;
         Square Next = NextSquare();
+        if (Next == null)
+        {
+            Debug.Log("West:"+ Boss.GetSquare().WestSquare.Type);
+            Debug.Log("East:" + Boss.GetSquare().EastSquare.Type);
+            Debug.Log("South:" + Boss.GetSquare().SouthSquare.Type);
+            Debug.Log("North:" + Boss.GetSquare().NorthSquare.Type);
+        }
         Boss.MoveToNextSquare(Next);
         this.DiceCount--;
 

@@ -11,7 +11,7 @@ public class StoryState1 : IStoryState
     
     private int state = 0;
     
-    public StoryState1() : base(new SomeTextState(Texts1, new ButtonChooseState()))
+    public StoryState1() : base(new SomeTextState(Texts1, new StartState()))
     {
     }
 

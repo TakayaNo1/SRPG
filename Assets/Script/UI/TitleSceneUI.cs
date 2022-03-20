@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TitleSceneUI : MonoBehaviour
 {
+    public string NextScene;
     public Text StartText;
 
     private float time;
@@ -17,10 +18,10 @@ public class TitleSceneUI : MonoBehaviour
     void Update()
     {
         if (IsPressedAnyKey()) {
-            SceneManager.LoadScene("MainGameScene");
+            SceneManager.LoadScene(NextScene);
         }
 
-        StartText.color = GetAlphaColor(StartText.color);
+        StartText.color = GetAlphaColor(StartText.color);//テキスト点滅
     }
 
     private bool IsPressedAnyKey()
