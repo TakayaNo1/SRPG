@@ -6,19 +6,22 @@ public class Boss : PlayableEntity
 {
     private EnemyStatus Status;
 
-    void Start()
+    override protected void Start()
     {
-        this.CurrentSqare = MapGenerator.GetSquare(20,20);
-        this.Trans = GetComponent<Transform>();
-        this.Status = new EnemyStatus("Boss", 10);
+        base.Start();
+        base.SetName("Boss");
+
+        base.CurrentSqare = MapGenerator.GetSquare(20,20);
+        base.Trans = GetComponent<Transform>();
+        this.Status = new EnemyStatus("Boss", 3);
         this.Status.Skills.Add(new DiceSkill(GameController, new Dice(2), "さいころ×２"));
 
-        MoveTo(this.CurrentSqare);
+        MoveTo(base.CurrentSqare);
     }
 
-    void Update()
+    override protected void Update()
     {
-        
+        base.Update();
     }
 
     public EnemyStatus GetEnemyStatus()

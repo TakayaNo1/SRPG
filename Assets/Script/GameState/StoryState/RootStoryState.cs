@@ -7,7 +7,7 @@ public class RootStoryState : IStoryState
     
     private int state = 0;
     
-    public RootStoryState() : base(new SomeTextState(Texts, new ButtonChooseState()))
+    public RootStoryState() : base(new SomeTextState(Texts, new StartState()))
     {
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 class BattleDamageState : IGameState
 {
-    private BattleState NextState;
+    private readonly BattleState NextState;
     private DamageStateType StateType;
     private bool IsFirst;
 
@@ -12,6 +12,8 @@ class BattleDamageState : IGameState
     private EntityStatus FromEntity, ToEntity;
     private int SelectedEnemyIndex;
     private int PlayerDiceCount, EnemyDiceCount;
+
+    private List<EnemyStatus> KilledEnemys=new List<EnemyStatus>();
     public BattleDamageState(int DiceCount, BattleState NextState)
     {
         this.PlayerDiceCount = DiceCount;
@@ -108,6 +110,7 @@ class BattleDamageState : IGameState
                     return new SomeTextState(lines, new DeathState());
                 }
 
+                this.KilledEnemys.Add((EnemyStatus)this.ToEntity);
                 this.NextState.GetEnemys().Remove((EnemyStatus)this.ToEntity);
                 this.StateType = DamageStateType.Exp;
                 return new SomeTextState(lines, this);
@@ -140,7 +143,7 @@ class BattleDamageState : IGameState
             {
                 lines.Add("レベルが" + level + "上がった。");
             }
-            return new SomeTextState(lines, new BattleFinState());
+            return new SomeTextState(lines, new BattleFinState(this.KilledEnemys));
         }
 
         return this;

@@ -50,12 +50,13 @@ class SquareEventState : IGameState
         }
         else if (squareType == SquareType.TeleportSquare)
         {
-            return new SomeTextState(new string[] { "テレポートマスに止まった。", "しかし、何も起きなかった。(未実装)" }, new EndState());
+            return new SomeTextState(new string[] { "テレポートマスに止まった。" }, new TeleportState());
         }
         else if (squareType == SquareType.HealSquare)
         {
-            int remain = Controller.GetCurrentPlayer().GetParameta(EntityParamsType.HP).AddValue(10);
-            return new SomeTextState(new string[] { "回復マスに止まった。\nHPが10回復した。" }, new EndState());
+            int remainHP = Controller.GetCurrentPlayer().GetParameta(EntityParamsType.HP).AddValue(10);
+            int remainMP = Controller.GetCurrentPlayer().GetParameta(EntityParamsType.MP).AddValue(10);
+            return new SomeTextState(new string[] { "回復マスに止まった。\nHPとMPが10回復した。" }, new EndState());
         }
         else
         {

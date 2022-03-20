@@ -6,6 +6,7 @@ public abstract class IStoryState : IGameState
 {
     private IGameState CurrentState;
 
+    protected GameController GameController;
     protected UIController UIController;
     protected StoryUIController StoryUIController;
 
@@ -18,6 +19,7 @@ public abstract class IStoryState : IGameState
     {
         if (this.UIController == null)
         {
+            this.GameController = Controller;
             this.UIController = Controller.GetUIController();
             this.UIController.SetStoryPanelVisible(true);
             this.UIController.HideAllButton();

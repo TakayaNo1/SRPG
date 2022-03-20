@@ -11,8 +11,11 @@ public class PlayerStatus : EntityStatus
         base.SetParams(1);
         this.Params[(int)EntityParamsType.EXP].Value = 0;
     }
+
     private ArmorItem[] Armors = new ArmorItem[4];
     private int[] Bufs = new int[Enum.GetValues(typeof(EntityParamsType)).Length];
+    private Dictionary<AchievementType, int> Achievements = new Dictionary<AchievementType, int>();
+
     public void SetArmorItem(ArmorItem Item)
     {
         this.Armors[(int)Item.GetArmorType()] = Item;
@@ -71,6 +74,29 @@ public class PlayerStatus : EntityStatus
         return lvl;
     }
 
+    public int GetAchievement(AchievementType Type)
+    {
+        if (this.Achievements.ContainsKey(Type))
+        {
+            return this.Achievements[Type];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public void AddAchievement(AchievementType Type)
+    {
+        if (this.Achievements.ContainsKey(Type))
+        {
+            this.Achievements[Type]++;
+        }
+        else
+        {
+            this.Achievements.Add(Type, 1);
+        }
+    }
+
     override public string ToString()
     {
         string str = this.Name + "\n";
@@ -101,4 +127,11 @@ public class PlayerStatus : EntityStatus
         }
         return str;
     }
+}
+
+public enum AchievementType
+{
+    DeathCount,
+    SlimeKillCount,
+    BossKillCount
 }

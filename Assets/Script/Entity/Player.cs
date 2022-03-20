@@ -7,8 +7,11 @@ public class Player : PlayableEntity
     public string Name;
     private PlayerStatus Status;
 
-    void Start()
+    override protected void Start()
     {
+        base.Start();
+        base.SetName(Name);
+
         base.CurrentSqare = MapGenerator.GetSquare(X, Z);
         base.Trans = GetComponent<Transform>();
         this.Status = new PlayerStatus();
@@ -18,9 +21,9 @@ public class Player : PlayableEntity
         MoveTo(this.CurrentSqare);
     }
 
-    void Update()
+    override protected void Update()
     {
-        
+        base.Update();
     }
 
     public PlayerStatus GetPlayerStatus()
