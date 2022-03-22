@@ -21,7 +21,10 @@ class RollingDiceState : IGameState{
         this.Result = Dice.GenerateRandom();
         this.DiceIndexs = Dice.GetDiceIndex(this.Result.Length);
     }
-
+    /**
+     * さいころをふる状態
+     * 移動/攻撃へ遷移
+     */
     public IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
@@ -35,10 +38,11 @@ class RollingDiceState : IGameState{
                 this.UIController.SetDicePanelVisible(this.DiceIndexs[i], true);
                 this.TotalDiceCount += this.Result[i];
             }
-
+            //さいころルーチンスタート
             this.UIController.StartCoroutine(this.RollDice());
         }
 
+        //結果表示　移動/攻撃状態へ遷移
         if (Player.GetButtonDown(Player.GamePadBoolKey.A))
         {
             this.IsRolling = false;
@@ -50,6 +54,8 @@ class RollingDiceState : IGameState{
             }
             else if (this.PrevState.GetType() == typeof(SubItemButtonChooseState))
             {
+                //スキルの場合、MP消費
+                //道具の場合、道具消費
                 SubItemButtonChooseState sbState = (SubItemButtonChooseState)this.PrevState;
                 if (sbState.GetSelectedIItem() is ISkill)
                 {
@@ -75,7 +81,8 @@ class RollingDiceState : IGameState{
                 return new BattleDamageState(this.TotalDiceCount, (BattleState)this.PrevState);
             }
         }
-        else if (Player.GetButtonDown(Player.GamePadBoolKey.B))//cancel dice
+        //cancel dice
+        else if (Player.GetButtonDown(Player.GamePadBoolKey.B))
         {
             this.IsRolling = false;
             this.UIController.SetDicePanelVisible(false);

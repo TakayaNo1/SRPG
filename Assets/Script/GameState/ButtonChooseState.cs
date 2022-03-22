@@ -13,18 +13,22 @@ class ButtonChooseState : IGameState{
     private int ButtonSize;
     private int SelectedItemIndex = 0;
     protected Button[] Button;
-    private UnityAction[] ButtonActions = new UnityAction[6];
+    protected UnityAction[] ButtonActions;
 
     public ButtonChooseState()
     {
     }
 
+    /**
+     * 選択肢状態
+     */
     public virtual IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {
             this.UIController = Controller.GetUIController();
             this.Button = this.UIController.SelectButton;
+            this.ButtonActions = new UnityAction[this.Button.Length];
             this.InitButton(Controller);
         }
 

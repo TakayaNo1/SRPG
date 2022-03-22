@@ -21,14 +21,17 @@ class BattleDamageState : IGameState
         this.StateType = DamageStateType.BeforeDamage;
         this.IsFirst = true;
     }
+    /**
+     * バトル状態
+     */
     public IGameState Next(GameController Controller)
     {
         if (this.FromEntity == null)
         {
             this.PlayerStatus = Controller.GetCurrentPlayer().GetPlayerStatus();
             this.SelectedEnemyIndex = 0;
-            //Debug.Log(this.PlayerStatus.Enemys[this.SelectedEnemyIndex].Status[(int)EntityStatusType.HP].Value);
-            if (this.PlayerDiceCount == 0)
+
+            if (this.PlayerDiceCount == 0)//逃げる失敗し、敵のみ攻撃する
             {
                 this.ToEntity = this.PlayerStatus;
                 this.FromEntity = this.NextState.GetEnemys()[this.SelectedEnemyIndex];
@@ -37,7 +40,7 @@ class BattleDamageState : IGameState
                 this.EnemyDiceCount = Random.Range(1, 7);
                 return new SomeTextState(new string[] { this.NextState.GetEnemys()[this.SelectedEnemyIndex].Name + "は" + this.EnemyDiceCount + "が出た！" }, this);
             }
-            else if (IsPlayerOrderFirst())
+            else if (IsPlayerOrderFirst())//プレイヤーが始めに攻撃するか
             {
                 this.FromEntity = this.PlayerStatus;
                 this.ToEntity = this.NextState.GetEnemys()[this.SelectedEnemyIndex];
@@ -48,8 +51,8 @@ class BattleDamageState : IGameState
                 this.FromEntity = this.NextState.GetEnemys()[this.SelectedEnemyIndex];
             }
         }
-
-        if (this.StateType == DamageStateType.BeforeDamage)
+        
+        if (this.StateType == DamageStateType.BeforeDamage)//サイコロの結果表示
         {
             this.StateType = DamageStateType.EntityDamaged;
 
@@ -64,7 +67,7 @@ class BattleDamageState : IGameState
 
             return this;
         }
-        else if (this.StateType == DamageStateType.EntityDamaged)
+        else if (this.StateType == DamageStateType.EntityDamaged)//攻撃
         {
             List<string> lines = new List<string>();
             lines.Add(this.FromEntity.Name + "の攻撃！");
@@ -81,7 +84,7 @@ class BattleDamageState : IGameState
             this.StateType = DamageStateType.AfterDamage;
             return new SomeTextState(lines, this);
         }
-        else if (this.StateType == DamageStateType.AfterDamage)
+        else if (this.StateType == DamageStateType.AfterDamage)//攻撃結果
         {
             if (this.IsFirst)
             {
@@ -128,12 +131,12 @@ class BattleDamageState : IGameState
 
             return new SomeTextState(lines, this);
         }
-        else if (this.StateType == DamageStateType.ContinueBattle)
+        else if (this.StateType == DamageStateType.ContinueBattle)//次の攻撃ターン
         {
             this.NextState.SetButtonVisible(true);
             return this.NextState;
         }
-        else if (this.StateType == DamageStateType.Exp)
+        else if (this.StateType == DamageStateType.Exp)//経験値、バトル終了
         {
             int exp = this.ToEntity.Params[(int)EntityParamsType.EXP].Value;
             List<string> lines = new List<string>();
@@ -148,14 +151,14 @@ class BattleDamageState : IGameState
 
         return this;
     }
-
+    //攻撃順番の交代
     private void SwapEntity()
     {
         EntityStatus tmp = this.FromEntity;
         this.FromEntity = this.ToEntity;
         this.ToEntity = tmp;
     }
-
+    //攻撃順番の計算
     private bool IsPlayerOrderFirst()
     {
         int player_spd = this.PlayerStatus.Params[(int)EntityParamsType.SPD].Value;

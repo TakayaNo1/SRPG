@@ -5,19 +5,22 @@ using UnityEngine;
 
 class EndState : IGameState{
 
+    /**
+     * 次の順番のプレイヤー/ボスへ
+     */
     public IGameState Next(GameController Controller)
     {
-        PlayableEntity entity = Controller.ShiftPlayer();
+        Controller.ShiftPlayer();
 
-        if (StartState.StoryState.IsStatableNextStory())
-        {
-            return StartState.StoryState = StartState.StoryState.GetNextStory();
-        }
+        //if (Controller.StoryState.IsStatableNextStory())
+        //{
+        //    return Controller.StoryState = Controller.StoryState.GetNextStory();
+        //}
 
-        if (entity is Boss)
-        {
-            return new BossStartState();
-        }
+        //if (entity is Boss)
+        //{
+        //    return new BossStartState();
+        //}
 
         return new StartState();
     }

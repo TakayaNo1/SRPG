@@ -26,6 +26,9 @@ abstract class SubButtonChooseState : IGameState
         this.ButtonIndex = 0;
     }
 
+    /**
+     * サブ選択肢状態
+     */
     public abstract IGameState Next(GameController Controller);
     public bool IsButtonChooseState()
     {
@@ -50,14 +53,14 @@ abstract class SubButtonChooseState : IGameState
 
     protected void ButtonLeft()
     {
-        if (!SetButton(--this.ButtonIndex))
+        if (!SetButtons(--this.ButtonIndex))
         {
             ++this.ButtonIndex;
         }
     }
     protected void ButtonRight()
     {
-        if (!SetButton(++this.ButtonIndex))
+        if (!SetButtons(++this.ButtonIndex))
         {
             --this.ButtonIndex;
         }
@@ -92,8 +95,8 @@ abstract class SubButtonChooseState : IGameState
     {
         this.ButtonActions[this.SelectedItemIndex].Invoke();
     }
-
-    protected bool SetButton(int ButtonIndex)
+    //アイテムボタンの選択
+    protected bool SetButtons(int ButtonIndex)
     {
         if (ButtonIndex < 0)
         {

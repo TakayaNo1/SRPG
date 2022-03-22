@@ -45,6 +45,9 @@ class SomeTextState : IGameState
         }
     }
 
+    /**
+     * テキストを順番に表示する状態
+     */
     public IGameState Next(GameController Controller)
     {
         if (Player.GetButtonDown(Player.GamePadBoolKey.A))

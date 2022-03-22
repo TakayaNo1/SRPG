@@ -5,6 +5,9 @@ using UnityEngine;
 
 class ResultState : IGameState
 {
+    /**
+     * スコア計算
+     */
     public IGameState Next(GameController Controller)
     {
         int i = 0;

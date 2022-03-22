@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     private IGameState GameState;
+    public IStoryState StoryState = new RootStoryState();
 
     public static int PlayerSize = 1;
     public Player[] Player=new Player[PlayerSize];
@@ -24,7 +25,10 @@ public class GameController : MonoBehaviour
         this.UIController = GetComponent<UIController>();
         this.CameraController = GetComponent<CameraController>();
     }
-
+    /**
+     * 状態遷移
+     * 状態がnullになった場合、ゲームを終了し、リザルト画面へ
+     */
     void Update()
     {
         if (this.GameState != null)
@@ -38,7 +42,7 @@ public class GameController : MonoBehaviour
     }
 
     /**
-     * @return Next Playable Entity (Player or Boss)
+     * 次の順番のプレイヤー/ボスへ
      */
     public PlayableEntity ShiftPlayer()
     {
@@ -60,6 +64,9 @@ public class GameController : MonoBehaviour
         CameraController.SetTarget(this.CurrentPlayer.gameObject);
         return this.CurrentPlayer;
     }
+    /**
+     * 現在のプレイヤー/ボス
+     */
     public PlayableEntity GetCurrentPlayableEntity()
     {
         if(PlayerOrderIndex < Player.Length)
@@ -68,31 +75,36 @@ public class GameController : MonoBehaviour
         }
         return Boss;
     }
-
+    //現在のゲーム状態
     public IGameState GetGameState()
     {
         return this.GameState;
     }
+    //現在のプレイヤーを変える
     public void SetCurrentPlayer(Player Player)
     {
         this.CurrentPlayer = Player;
     }
+    //現在のプレイヤー
     public Player GetCurrentPlayer()
     {
         return CurrentPlayer;
     }
+    //UIController
     public UIController GetUIController()
     {
         return this.UIController;
     }
+    //CameraController
     public CameraController GetCameraController()
     {
         return this.CameraController;
     }
 
+    //ストーリーやその他パラメータをリセット
     public void Reset()
     {
-        StartState.StoryState = new RootStoryState();
+        this.StoryState = new RootStoryState();
         BattleState.EnemyLevel = 1;
     }
 }

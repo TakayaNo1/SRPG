@@ -33,13 +33,16 @@ class SubItemButtonChooseState : SubButtonChooseState
         return a;
     }
 
+    /**
+     * アイテム選択状態
+     */
     public override IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {
             this.UIController = Controller.GetUIController();
             this.Button = this.UIController.SubButton;
-            SetButton(0);
+            SetButtons(0);
             UIController.Log(this.GetSelectedIItem().GetItemDescription());
         }
 

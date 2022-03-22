@@ -10,7 +10,7 @@ public class Player : PlayableEntity
     override protected void Start()
     {
         base.Start();
-        base.SetName(Name);
+        base.SetNameText(Name);
 
         base.CurrentSqare = MapGenerator.GetSquare(X, Z);
         base.Trans = GetComponent<Transform>();
@@ -36,7 +36,7 @@ public class Player : PlayableEntity
     }
 
     /**
-     * Get入力方向のマス
+     * DPAD入力方向のマス
      */
     public Square GetNextSquare()
     {
@@ -70,31 +70,26 @@ public class Player : PlayableEntity
 
         if (axis == Vector2.zero)
         {
-            DPADIsDown = false;
-            return false;
+            return DPADIsDown = false;
         }
 
         if (!DPADIsDown)
         {
             if (Key == GamePadDPADKey.DPAD_RIGHT && axis.x == 1)
             {
-                DPADIsDown = true;
-                return true;
+                return DPADIsDown = true;
             }
             else if (Key == GamePadDPADKey.DPAD_LEFT && axis.x == -1)
             {
-                DPADIsDown = true;
-                return true;
+                return DPADIsDown = true;
             }
             else if (Key == GamePadDPADKey.DPAD_UP && axis.y == 1)
             {
-                DPADIsDown = true;
-                return true;
+                return DPADIsDown = true;
             }
             else if (Key == GamePadDPADKey.DPAD_DOWN && axis.y == -1)
             {
-                DPADIsDown = true;
-                return true;
+                return DPADIsDown = true;
             }
         }
         return false;

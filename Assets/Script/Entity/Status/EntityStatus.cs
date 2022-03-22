@@ -51,6 +51,7 @@ public class EntityStatus
         }
     }
 
+    //ダメージ計算
     public DamageInfo Damage(EntityStatus fromEntity, int DiceCount)
     {
         int att = fromEntity.Params[(int)EntityParamsType.ATT].Value;

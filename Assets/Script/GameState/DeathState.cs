@@ -5,6 +5,11 @@ using UnityEngine;
 
 class DeathState : IGameState
 {
+    /**
+     * 死亡状態
+     * 敵のレベルリセット
+     * ボスはプレイヤーから離れたマスへテレポート
+     */
     public IGameState Next(GameController Controller)
     {
         BattleState.EnemyLevel = 1;
