@@ -8,6 +8,10 @@ class TeleportState : IGameState
     private Player Player;
     private int stateCount = 0;
     private Vector3 scale;
+
+    /**
+     * テレポート状態
+     */
     public IGameState Next(GameController Controller)
     {
         if (Player == null)

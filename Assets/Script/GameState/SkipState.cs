@@ -5,6 +5,9 @@ using UnityEngine;
 
 class SkipState : IGameState
 {
+    /**
+     * 死亡したプレイヤーを回復し、次のプレイヤーへ
+     */
     public IGameState Next(GameController Controller)
     {
         Parameta HP = Controller.GetCurrentPlayer().GetParameta(EntityParamsType.HP);

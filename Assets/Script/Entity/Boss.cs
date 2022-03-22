@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class Boss : PlayableEntity
 {
+    private readonly string BOSS_NAME = "Boss";
+    private readonly int BOSS_LEVEL = 5;
+
     private EnemyStatus Status;
 
     override protected void Start()
     {
         base.Start();
-        base.SetName("Boss");
+        base.SetNameText(BOSS_NAME);
 
         base.CurrentSqare = MapGenerator.GetSquare(20,20);
         base.Trans = GetComponent<Transform>();
-        this.Status = new EnemyStatus("Boss", 3);
+        this.Status = new EnemyStatus(BOSS_NAME, BOSS_LEVEL);
         this.Status.Skills.Add(new DiceSkill(GameController, new Dice(2), "さいころ×２"));
 
         MoveTo(base.CurrentSqare);

@@ -10,6 +10,9 @@ class SquareEventState : IGameState
 
     }
 
+    /**
+     * 止まったマスのイベント状態
+     */
     public IGameState Next(GameController Controller)
     {
         SquareType squareType = Controller.GetCurrentPlayer().GetSquare().Type;

@@ -17,11 +17,13 @@ public class TitleSceneUI : MonoBehaviour
 
     void Update()
     {
+        //なにかボタンが押された場合、次のシーンへ
         if (IsPressedAnyKey()) {
             SceneManager.LoadScene(NextScene);
         }
 
-        StartText.color = GetAlphaColor(StartText.color);//テキスト点滅
+        //テキスト点滅
+        StartText.color = GetAlphaColor(StartText.color);
     }
 
     private bool IsPressedAnyKey()

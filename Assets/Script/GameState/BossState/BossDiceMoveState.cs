@@ -10,7 +10,7 @@ class BossDiceMoveState : IGameState
 
     private Boss Boss;
     private Player Player;
-    private bool isMoving = false;
+    private bool isCoroutineActive = false;
     
     public BossDiceMoveState(int diceCount)
     {
@@ -24,13 +24,16 @@ class BossDiceMoveState : IGameState
         {
             this.Boss = Controller.Boss;
         }
+        //最も近いプレイヤー
         this.Player = NearByPlayer(Controller);
 
-        if (!isMoving)
+        //ボス移動ルーチン
+        if (!isCoroutineActive)
         {
             this.Boss.StartCoroutine(this.BossMove());
         }
 
+        //遭遇したか判定
         float distance = (Boss.transform.position - Player.transform.position).sqrMagnitude;
         if (distance < 0.01)
         {
@@ -38,6 +41,7 @@ class BossDiceMoveState : IGameState
             return new SomeTextState(Player.Name + "と遭遇した！", new BattleState(Boss.GetEnemyStatus()));
         }
 
+        //移動
         if (this.DiceCount>0)
         {
             UIController.Log("あと" + this.DiceCount + "マス進めます。");
@@ -49,9 +53,14 @@ class BossDiceMoveState : IGameState
         }
     }
 
+    /**
+     * ボス移動ルーチン
+     * Nextがnullになるバグ有り
+     * nullの場合ルーチンが永続的にActiveになる
+     */
     private IEnumerator BossMove()
     {
-        isMoving = true;
+        isCoroutineActive = true;
         Square Next = NextSquare();
         if (Next == null)
         {
@@ -65,8 +74,11 @@ class BossDiceMoveState : IGameState
 
         yield return new WaitForSeconds(0.7f);
 
-        isMoving = false;
+        isCoroutineActive = false;
     }
+    /**
+     * Playerへ接近するためのマスを選択
+     */
     private Square NextSquare()
     {
         Vector3 vec = Boss.transform.position - Player.transform.position;

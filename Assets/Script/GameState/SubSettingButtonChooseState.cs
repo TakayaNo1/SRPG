@@ -13,13 +13,16 @@ class SubSettingButtonChooseState : SubButtonChooseState
         SetButtonListener(0, () => SceneManager.LoadScene("HomeScene"));
     }
 
+    /**
+     * 設定選択状態
+     */
     public override IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
         {
             this.UIController = Controller.GetUIController();
             this.Button = this.UIController.SubButton;
-            SetButton(0);
+            SetButtons(0);
         }
 
         if (Player.GetDPADButtonDown(Player.GamePadDPADKey.DPAD_UP))

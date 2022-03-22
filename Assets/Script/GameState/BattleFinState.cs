@@ -15,7 +15,10 @@ class BattleFinState : IGameState{
     {
         this.Enemys = Enemys;
     }
-    
+    /**
+     * バトル終了状態
+     * 敵を倒した場合、アチーブメント追加
+     */
     public IGameState Next(GameController Controller)
     {
         Controller.GetUIController().SetBattlePanelVisible(false);

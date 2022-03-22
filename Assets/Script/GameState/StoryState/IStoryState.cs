@@ -15,6 +15,9 @@ public abstract class IStoryState : IGameState
         this.CurrentState = CurrentState;
     }
 
+    /**
+     * ストーリー状態
+     */
     public IGameState Next(GameController Controller)
     {
         if (this.UIController == null)
@@ -27,13 +30,13 @@ public abstract class IStoryState : IGameState
 
             StateStory();
         }
-
+        //ストーリー遷移
         if (Player.GetButtonDown(Player.GamePadBoolKey.A))
         {
             this.CurrentState = this.CurrentState.Next(Controller);
             StateStory();
         }
-
+        //ストーリー終了
         if (!(CurrentState is IStoryState) && !(CurrentState is SomeTextState))
         {
             this.UIController.SetStoryPanelVisible(false);
@@ -43,7 +46,7 @@ public abstract class IStoryState : IGameState
         return this;
     }
 
-    protected abstract void StateStory();
-    public abstract bool IsStatableNextStory();
-    public abstract IStoryState GetNextStory();
+    protected abstract void StateStory();//ストーリー遷移
+    public abstract bool IsStatableNextStory();//次のストーリーへ遷移可能か
+    public abstract IStoryState GetNextStory();//次のストーリー
 }

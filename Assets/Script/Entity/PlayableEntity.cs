@@ -30,7 +30,7 @@ public abstract class PlayableEntity : MonoBehaviour
     {
         return GetStatus().Params[(int)type];
     }
-    protected void SetName(string Name)
+    protected void SetNameText(string Name)
     {
         this.TextObject.GetComponent<TextMesh>().text=Name;
     }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 class BattleState : ButtonChooseState
 {
@@ -25,6 +27,9 @@ class BattleState : ButtonChooseState
         this.Enemys.AddRange(Enemys);
     }
 
+    /**
+     * バトル選択肢状態
+     */
     public override IGameState Next(GameController Controller)
     {
         if (base.UIController == null)
@@ -32,6 +37,7 @@ class BattleState : ButtonChooseState
             base.UIController = Controller.GetUIController();
             base.UIController.SetBattlePanelVisible(true);
             base.Button = base.UIController.SelectButton;
+            base.ButtonActions = new UnityAction[this.Button.Length];
             this.InitButton(Controller);
             
             this.PlayerStatus = Controller.GetCurrentPlayer().GetPlayerStatus();

@@ -14,6 +14,9 @@ class DiceMoveState : IGameState
         this.DiceCount = diceCount;
     }
     
+    /**
+     * 移動状態
+     */
     public IGameState Next(GameController Controller)
     {
         Player P = Controller.GetCurrentPlayer();
