@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class DiceSkill : DiceItem, ISkill
 {
-    protected GameController Controller;
 
     public DiceSkill(GameController Controller, Dice Dice, string name): base(Controller, Dice, name)
     {
-        this.Controller = Controller;
     }
 
     public new void Action()

@@ -42,7 +42,7 @@ public class Player : PlayableEntity
     {
         if (base.CurrentSqare == null)
         {
-            base.CurrentSqare = MapGenerator.GetStartSquare();
+            base.CurrentSqare = MapGenerator.GetSquare(X, Z);
         }
         if (GetDPADButtonDown(GamePadDPADKey.DPAD_RIGHT) && base.CurrentSqare.EastSquare != null)
         {

@@ -7,19 +7,13 @@ public class MapGenerator : MonoBehaviour
 {
     private static GameObject prefab;
     private static Square[][] Maps;
-    private static Square StartSquare;
     void Start()
     {
         prefab = (GameObject)Resources.Load("Prefabs/DefaultSquare");
         
         Maps = GenerateDefaultMap(GetComponent<Transform>());
-        StartSquare = Maps[10][10];
     }
 
-    public static Square GetStartSquare()
-    {
-        return StartSquare;
-    }
     public static Square GetSquare(int x,int z)
     {
         return Maps[x][z];
